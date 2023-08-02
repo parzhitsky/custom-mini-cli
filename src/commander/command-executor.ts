@@ -14,6 +14,7 @@ type ParamsEmpty = undefined
 
 export type ParamsConstraint = ParamsGiven | ParamsEmpty
 
+// TODO: input may be undefined
 /** @private */
 type InputAndParams<
   Input,
@@ -40,12 +41,12 @@ export interface CommandExecutor<
 
 /** @private */
 interface WithParseInput<Input> {
-  readonly parseInput: (this: unknown, argsRaw: string[]) => Input
+  readonly parseInput: (this: unknown, argsRaw: string[]) => Input // TODO: Result<Input>
 }
 
 /** @private */
 interface WithParseParams<Params extends ParamsConstraint> {
-  readonly parseParams: (this: unknown, argsRaw: string[]) => Params
+  readonly parseParams: (this: unknown, argsRaw: string[]) => Params // TODO: Result<Params>
 }
 
 export type WithArgsRawParsers<Input, Params extends ParamsConstraint> = {} & (

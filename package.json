@@ -5,6 +5,7 @@
   "private": true,
   "exports": null,
   "scripts": {
+    "prebuild": "rm -rf dist/*",
     "build": "tsc --project tsconfig.build.json",
     "postbuild": "tsc-alias --project tsconfig.build.json",
     "start": "node --enable-source-maps dist/index.js"
