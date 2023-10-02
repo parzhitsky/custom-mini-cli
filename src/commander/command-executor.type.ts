@@ -35,7 +35,7 @@ export interface CommandExecutor<
   Input = InputEmpty,
   Params extends ParamsConstraint = ParamsEmpty,
 > {
-  (this: unknown, ...inputAndParams: InputAndParams<Input, Params>): Result<ResultValue>
+  (this: unknown, ...inputAndParams: InputAndParams<Input, Params>): Result<ResultValue> | PromiseLike<Result<ResultValue>>
 }
 
 export interface Execution<

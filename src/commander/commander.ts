@@ -69,11 +69,11 @@ export class Commander {
     }
   }
 
-  runCommandRaw<ResultValue = unknown>(commandRaw: CommandRaw): Result<ResultValue> {
+  async runCommandRaw<ResultValue = unknown>(commandRaw: CommandRaw): Promise<Result<ResultValue>> {
     try {
       const { input, params, executor: execute } = this.createExecution(commandRaw)
 
-      const result = execute(input, params)
+      const result = await execute(input, params)
 
       return result as Result<ResultValue>
     } catch (caught) {

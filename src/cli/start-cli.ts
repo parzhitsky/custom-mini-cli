@@ -15,7 +15,7 @@ export async function startCli(commander: Commander): Promise<void> {
   while (true) {
     const line = await lines.question('command > ')
     const commandRaw = convertInputLineToCommandRaw(line)
-    const result = commander.runCommandRaw(commandRaw)
+    const result = await commander.runCommandRaw(commandRaw)
 
     console.log() // pad response block with empty lines
 
