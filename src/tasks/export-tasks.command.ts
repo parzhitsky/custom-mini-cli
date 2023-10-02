@@ -44,10 +44,7 @@ export const exportTasks: Command<ExportTasksResultValue, string, ExportTasksPar
     const targetDirCooked = targetDirRaw?.trim()
 
     if (!targetDirCooked) {
-      return {
-        success: false,
-        message: 'Target directory path for the export file is required; paths are resolved relative to the current process working directory',
-      }
+      throw new Error('Target directory path for the export file is required; paths are resolved relative to the current process working directory')
     }
 
     const tasks = Array.from(iterateTasks())
@@ -63,10 +60,7 @@ export const exportTasks: Command<ExportTasksResultValue, string, ExportTasksPar
     writeFileSync(exportFilePath, tasksJson, 'utf8')
 
     return {
-      success: true,
-      payload: {
-        exportFilePath,
-      },
+      exportFilePath,
     }
   },
 }

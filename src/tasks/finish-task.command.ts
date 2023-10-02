@@ -9,12 +9,10 @@ export const finishTask: Command<Task, string> = {
   },
 
   executor(id) {
-    const getTaskResult = getExistingTaskById(id)
+    const task = getExistingTaskById(id)
 
-    if (getTaskResult.success) {
-      getTaskResult.payload.finishedAt ??= new Date()
-    }
+    task.finishedAt ??= new Date()
 
-    return getTaskResult
+    return task
   }
 }

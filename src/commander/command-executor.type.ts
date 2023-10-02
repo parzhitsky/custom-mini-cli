@@ -1,4 +1,4 @@
-import { Result } from '@/result.type.js'
+export {} // to make it obvious that this is a module
 
 /** @private */
 type InputGiven = {}
@@ -31,11 +31,11 @@ type InputAndParams<
     [input?: Input, params?: Params]
 
 export interface CommandExecutor<
-  ResultValue,
+  Output,
   Input = InputEmpty,
   Params extends ParamsConstraint = ParamsEmpty,
 > {
-  (this: unknown, ...inputAndParams: InputAndParams<Input, Params>): Result<ResultValue> | PromiseLike<Result<ResultValue>>
+  (this: unknown, ...inputAndParams: InputAndParams<Input, Params>): Output | PromiseLike<Output>
 }
 
 export interface Execution<
@@ -52,12 +52,12 @@ export type ExecutionUnknown = Execution<unknown, unknown, Record<string, unknow
 
 /** @private */
 interface WithParseInput<Input> {
-  readonly parseInput: (this: unknown, argsRaw: string[]) => Input // TODO: Result<Input>
+  readonly parseInput: (this: unknown, argsRaw: string[]) => Input
 }
 
 /** @private */
 interface WithParseParams<Params extends ParamsConstraint> {
-  readonly parseParams: (this: unknown, argsRaw: string[]) => Params // TODO: Result<Params>
+  readonly parseParams: (this: unknown, argsRaw: string[]) => Params
 }
 
 export type WithArgsRawParsers<Input, Params extends ParamsConstraint> = {} & (

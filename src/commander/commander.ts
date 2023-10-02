@@ -1,4 +1,3 @@
-import { type Result } from '@/result.type.js'
 import { objectFromEntries } from '@/object-from-entries.js'
 import { type CommandAny, type Command, type ParamsConstraint, type CommandRaw } from './command.type.js'
 import { type ExecutionUnknown } from './command-executor.type.js'
@@ -19,10 +18,7 @@ export class Commander {
 
         const result = objectFromEntries(entries)
 
-        return {
-          success: true,
-          payload: result,
-        }
+        return result
       },
     }
   }
@@ -69,25 +65,11 @@ export class Commander {
     }
   }
 
-  async runCommandRaw<ResultValue = unknown>(commandRaw: CommandRaw): Promise<Result<ResultValue>> {
-    try {
-      const { input, params, executor: execute } = this.createExecution(commandRaw)
+  async runCommandRaw(commandRaw: CommandRaw): Promise<unknown> {
+    const { input, params, executor: execute } = this.createExecution(commandRaw)
 
-      const result = await execute(input, params)
+    const output = await execute(input, params)
 
-      return result as Result<ResultValue>
-    } catch (caught) {
-      if (caught instanceof Error) {
-        return {
-          success: false,
-          message: `${caught.name}: ${caught.message}`
-        }
-      }
-
-      return {
-        success: false,
-        message: `Unexpected error while running "${commandRaw.name}": ${caught}`,
-      }
-    }
+    return output
   }
 }

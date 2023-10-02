@@ -33,9 +33,6 @@ export const listTasks: Command<Excerpt, undefined, Params> = {
       }
     }
 
-    return {
-      success: true,
-      payload: excerpt,
-    }
+    return excerpt
   },
 }

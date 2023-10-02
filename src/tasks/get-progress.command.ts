@@ -28,12 +28,9 @@ export const getProgress: Command<Progress> = {
     }
 
     return {
-      success: true,
-      payload: {
-        finishedCount,
-        requiredCount,
-        totalCount,
-      },
+      finishedCount,
+      requiredCount,
+      totalCount,
     }
   },
 }

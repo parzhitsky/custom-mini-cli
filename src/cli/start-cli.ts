@@ -13,16 +13,23 @@ export async function startCli(commander: Commander): Promise<void> {
   })
 
   while (true) {
-    const line = await lines.question('command > ')
-    const commandRaw = convertInputLineToCommandRaw(line)
-    const result = await commander.runCommandRaw(commandRaw)
+    const input = await lines.question('command > ')
+    const commandRaw = convertInputLineToCommandRaw(input)
 
     console.log() // pad response block with empty lines
 
-    if (!result.success) {
-      console.error(`Error: ${result.message}`)
-    } else if (result.payload != null) {
-      console.table(result.payload)
+    try {
+      const output = await commander.runCommandRaw(commandRaw)
+
+      if (output != null) {
+        console.table(output)
+      }
+    } catch (caught) {
+      if (caught instanceof Error) {
+        console.error(`${caught.name}: ${caught.message}`)
+      } else {
+        console.error(`Error: ${caught}`)
+      }
     }
 
     console.log() // pad response block with empty lines

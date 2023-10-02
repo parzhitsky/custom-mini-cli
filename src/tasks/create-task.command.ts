@@ -1,6 +1,5 @@
 import { parse as parseQuery } from 'querystring'
 import { type Command } from '@/commander/command.type.js'
-import { type Result } from '@/result.type.js'
 import { parseBoolean } from '@/parse-boolean.js'
 import { createTaskId } from './create-task-id.js'
 import { type Task, addTask } from './tasks-collection.js'
@@ -25,12 +24,9 @@ export const createTask: Command<Task, string, Params> = {
     }
   },
 
-  executor(definition: string, params: Params): Result<Task> {
+  executor(definition: string, params: Params): Task {
     if (!definition) {
-      return {
-        success: false,
-        message: 'Cannot create an empty task',
-      }
+      throw new Error('Cannot create an empty task')
     }
 
     const task: Task = {
@@ -43,9 +39,6 @@ export const createTask: Command<Task, string, Params> = {
 
     addTask(task)
 
-    return {
-      success: true,
-      payload: task,
-    }
+    return task
   },
 }

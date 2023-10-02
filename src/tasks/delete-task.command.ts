@@ -1,7 +1,7 @@
 import { Command } from '@/commander/command.type.js'
 import { getExistingTaskById, deleteTask as deleteTaskFromCollection } from './tasks-collection.js'
 
-export const deleteTask: Command<null, string> = {
+export const deleteTask: Command<void, string> = {
   description: 'Delete a task',
 
   parseInput(argsRaw) {
@@ -9,14 +9,6 @@ export const deleteTask: Command<null, string> = {
   },
 
   executor(id) {
-    const getTaskResult = getExistingTaskById(id)
-
-    if (!getTaskResult.success) {
-      return getTaskResult
-    }
-
-    const result = deleteTaskFromCollection(getTaskResult.payload)
-
-    return result
+    deleteTaskFromCollection(getExistingTaskById(id))
   }
 }

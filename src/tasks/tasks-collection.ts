@@ -1,5 +1,3 @@
-import { type Result } from '@/result.type.js'
-
 export interface Task {
   readonly id: string
   readonly definition: string
@@ -17,34 +15,18 @@ export function * iterateTasks(): IterableIterator<Task> {
   }
 }
 
-export function addTask(task: Task): Result<null> {
+export function addTask(task: Task): void {
   tasksMap[task.id] = task
-
-  return {
-    success: true,
-    payload: null,
-  }
 }
 
-export function getExistingTaskById(id: string): Result<Task> {
+export function getExistingTaskById(id: string): Task {
   if (id in tasksMap) {
-    return {
-      success: true,
-      payload: tasksMap[id],
-    }
+    return tasksMap[id]
   }
 
-  return {
-    success: false,
-    message: `Task "${id}" is not found`,
-  }
+  throw new Error(`Task "${id}" is not found`)
 }
 
-export function deleteTask(task: Task): Result<null> {
+export function deleteTask(task: Task): void {
   delete tasksMap[task.id]
-
-  return {
-    success: true,
-    payload: null,
-  }
 }
