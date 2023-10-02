@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import { type Command } from '@/commander/command.type.js'
 import { parseBoolean } from '@/parse-boolean.js'
-import { iterateTasks } from './tasks-collection.js'
+import { type Task, iterateTasks } from './tasks-collection.js'
 
 /** @private */
 interface ExportTasksParams {
@@ -47,7 +47,21 @@ export const exportTasks: Command<ExportTasksResultValue, string, ExportTasksPar
       throw new Error('Target directory path for the export file is required; paths are resolved relative to the current process working directory')
     }
 
-    const tasks = Array.from(iterateTasks())
+    const tasksIterator = iterateTasks()
+    let tasks: Task[]
+
+    if (!params.inProgressOnly) {
+      tasks = Array.from(tasksIterator)
+    } else {
+      tasks = []
+
+      for (const task of tasksIterator) {
+        if (task.finishedAt == null) {
+          tasks.push(task)
+        }
+      }
+    }
+
     const tasksJson = JSON.stringify(tasks, null, 2)
     const exportFileDir = resolve(process.cwd(), targetDirCooked)
     const exportFileName = generateExportFileName()
