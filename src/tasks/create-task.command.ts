@@ -2,9 +2,8 @@ import { parse as parseQuery } from 'querystring'
 import { type Command } from '@/commander/command.type.js'
 import { type Result } from '@/result.type.js'
 import { parseBoolean } from '@/parse-boolean.js'
-import { type Task } from './task.type.js'
 import { createTaskId } from './create-task-id.js'
-import { addTask } from './tasks-collection.js'
+import { type Task, addTask } from './tasks-collection.js'
 
 /** @private */
 interface Params extends Pick<Task, 'isRequired'> {}

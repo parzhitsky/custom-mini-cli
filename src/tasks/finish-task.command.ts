@@ -1,6 +1,5 @@
 import { Command } from '@/commander/command.type.js'
-import { Task } from './task.type.js'
-import { getExistingTaskById } from './tasks-collection.js'
+import { type Task, getExistingTaskById } from './tasks-collection.js'
 
 export const finishTask: Command<Task, string> = {
   description: 'Finish a task',

@@ -1,8 +1,7 @@
 import { parse as parseQuery } from 'querystring'
 import { type Command } from '@/commander/command.type.js'
 import { parseBoolean } from '@/parse-boolean.js'
-import { type Task } from './task.type.js'
-import { iterateTasks } from './tasks-collection.js'
+import { type Task, iterateTasks } from './tasks-collection.js'
 
 /** @private */
 interface Params {

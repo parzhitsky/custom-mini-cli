@@ -1,5 +1,12 @@
 import { type Result } from '@/result.type.js'
-import { type Task } from './task.type.js'
+
+export interface Task {
+  readonly id: string
+  readonly definition: string
+  readonly isRequired: boolean
+  readonly createdAt: Date
+  finishedAt: Date | null
+}
 
 /** @private */
 const tasksMap = Object.create(null) as Record<string, Task>
