@@ -38,6 +38,18 @@ export interface CommandExecutor<
   (this: unknown, ...inputAndParams: InputAndParams<Input, Params>): Result<ResultValue>
 }
 
+export interface Execution<
+  ResultValue,
+  Input = InputEmpty,
+  Params extends ParamsConstraint = ParamsEmpty,
+> {
+  readonly input: Input
+  readonly params: Params
+  readonly executor: CommandExecutor<ResultValue, Input, Params>
+}
+
+export type ExecutionUnknown = Execution<unknown, unknown, Record<string, unknown>>
+
 /** @private */
 interface WithParseInput<Input> {
   readonly parseInput: (this: unknown, argsRaw: string[]) => Input // TODO: Result<Input>

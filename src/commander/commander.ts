@@ -1,6 +1,7 @@
 import { type Result } from '@/result.type.js'
 import { objectFromEntries } from '@/object-from-entries.js'
 import { type CommandAny, type Command, type ParamsConstraint, type CommandRaw } from './command.type.js'
+import { type ExecutionUnknown } from './command-executor.type.js'
 
 /** @private */
 interface CommandHelpResult extends Record<string, Pick<CommandAny, 'description'>> {}
@@ -51,7 +52,7 @@ export class Commander {
     return this
   }
 
-  protected doRun({ name, argsRaw }: CommandRaw): Result<unknown> {
+  protected createExecution({ name, argsRaw }: CommandRaw): ExecutionUnknown {
     if (name in this.commandsMap === false) {
       throw new Error(`Command "${name}" does not exist`)
     }
@@ -59,17 +60,22 @@ export class Commander {
     const command = this.commandsMap[name]
     const input = command.parseInput?.(argsRaw)
     const params = command.parseParams?.(argsRaw)
-    const execute = command.executor
-    const result = execute(input, params)
+    const executor = command.executor
 
-    return result
+    return {
+      input,
+      params,
+      executor,
+    }
   }
 
-  run<ResultValue = unknown>(commandRaw: CommandRaw): Result<ResultValue> {
+  runCommandRaw<ResultValue = unknown>(commandRaw: CommandRaw): Result<ResultValue> {
     try {
-      const result = this.doRun(commandRaw) as Result<ResultValue>
+      const { input, params, executor: execute } = this.createExecution(commandRaw)
 
-      return result
+      const result = execute(input, params)
+
+      return result as Result<ResultValue>
     } catch (caught) {
       if (caught instanceof Error) {
         return {
