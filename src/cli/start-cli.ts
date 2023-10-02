@@ -1,18 +1,21 @@
-import { createInterface } from 'readline'
+import { createInterface } from 'readline/promises'
 import { Commander } from '@/commander/commander.js'
 import { convertInputLineToCommandRaw } from './convert-input-line-to-command-raw.js'
 
-/** @private */
-const lines = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
+export async function startCli(commander: Commander): Promise<void> {
+  console.log('Press ⌃D to stop') // this only works in macOS, but I don't care
+  console.log('Type "help" to get the list of available commands')
+  console.log() // explicit empty line
 
-/** @private */
-function askCommand(commander: Commander): void {
-  lines.question('command > ', (line) => {
+  const lines = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  })
+
+  while (true) {
+    const line = await lines.question('command > ')
     const commandRaw = convertInputLineToCommandRaw(line)
-    const result = commander.run(commandRaw)
+    const result = commander.runCommandRaw(commandRaw)
 
     console.log() // pad response block with empty lines
 
@@ -23,15 +26,5 @@ function askCommand(commander: Commander): void {
     }
 
     console.log() // pad response block with empty lines
-
-    askCommand(commander)
-  })
-}
-
-export function startCli(commander: Commander): void {
-  console.log('Press ⌃D to stop') // this only works in macOS, but I don't care
-  console.log('Type "help" to get the list of available commands')
-  console.log() // explicit empty line
-
-  askCommand(commander)
+  }
 }
