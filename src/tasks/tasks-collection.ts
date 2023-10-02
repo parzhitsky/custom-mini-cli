@@ -2,17 +2,15 @@ import { type Result } from '@/result.type.js'
 import { type Task } from './task.type.js'
 
 /** @private */
-const tasksSet = new Set<Task>()
-
-export function * iterateTasks(): IterableIterator<Task> {
-  yield * tasksSet
-}
-
-/** @private */
 const tasksMap = Object.create(null) as Record<string, Task>
 
-export function insert(task: Task): Result<null> {
-  tasksSet.add(task)
+export function * iterateTasks(): IterableIterator<Task> {
+  for (const taskId in tasksMap) {
+    yield tasksMap[taskId]
+  }
+}
+
+export function addTask(task: Task): Result<null> {
   tasksMap[task.id] = task
 
   return {
@@ -36,7 +34,6 @@ export function getExistingTaskById(id: string): Result<Task> {
 }
 
 export function deleteTask(task: Task): Result<null> {
-  tasksSet.delete(task)
   delete tasksMap[task.id]
 
   return {

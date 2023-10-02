@@ -4,7 +4,7 @@ import { type Result } from '@/result.type.js'
 import { parseBoolean } from '@/parse-boolean.js'
 import { type Task } from './task.type.js'
 import { createTaskId } from './create-task-id.js'
-import * as Tasks from './tasks-collection.js'
+import { addTask } from './tasks-collection.js'
 
 /** @private */
 interface Params extends Pick<Task, 'isRequired'> {}
@@ -42,7 +42,7 @@ export const createTask: Command<Task, string, Params> = {
       finishedAt: null,
     }
 
-    Tasks.insert(task)
+    addTask(task)
 
     return {
       success: true,

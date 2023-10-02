@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import { type Command } from '@/commander/command.type.js'
 import { parseBoolean } from '@/parse-boolean.js'
-import * as Tasks from './tasks-collection.js'
+import { iterateTasks } from './tasks-collection.js'
 
 /** @private */
 interface ExportTasksParams {
@@ -50,7 +50,7 @@ export const exportTasks: Command<ExportTasksResultValue, string, ExportTasksPar
       }
     }
 
-    const tasks = Array.from(Tasks.iterateTasks())
+    const tasks = Array.from(iterateTasks())
     const tasksJson = JSON.stringify(tasks, null, 2)
     const exportFileDir = resolve(process.cwd(), targetDirCooked)
     const exportFileName = generateExportFileName()

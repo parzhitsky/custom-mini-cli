@@ -1,5 +1,5 @@
 import { Command } from '@/commander/command.type.js'
-import * as Tasks from './tasks-collection.js'
+import { getExistingTaskById, deleteTask as deleteTaskFromCollection } from './tasks-collection.js'
 
 export const deleteTask: Command<null, string> = {
   description: 'Delete a task',
@@ -9,13 +9,13 @@ export const deleteTask: Command<null, string> = {
   },
 
   executor(id) {
-    const getTaskResult = Tasks.getExistingTaskById(id)
+    const getTaskResult = getExistingTaskById(id)
 
     if (!getTaskResult.success) {
       return getTaskResult
     }
 
-    const result = Tasks.deleteTask(getTaskResult.payload)
+    const result = deleteTaskFromCollection(getTaskResult.payload)
 
     return result
   }
