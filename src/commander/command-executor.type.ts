@@ -14,7 +14,6 @@ type ParamsEmpty = undefined
 
 export type ParamsConstraint = ParamsGiven | ParamsEmpty
 
-// TODO: input may be undefined
 /** @private */
 type InputAndParams<
   Input,

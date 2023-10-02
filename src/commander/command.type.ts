@@ -1,6 +1,6 @@
-import { WithArgsRawParsers, type CommandExecutor, type ParamsConstraint } from './command-executor.js'
+import { WithArgsRawParsers, type CommandExecutor, type ParamsConstraint } from './command-executor.type.js'
 
-export { type ParamsConstraint } from './command-executor.js'
+export { type ParamsConstraint } from './command-executor.type.js'
 
 /** @private */
 type ArgsRaw = string[]
